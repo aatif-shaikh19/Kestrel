@@ -2,3 +2,5 @@ data/
 __pycache__/
 *.pyc
 .venv/
+
+recording-script.md recording-video.mp4 submission-form.md
