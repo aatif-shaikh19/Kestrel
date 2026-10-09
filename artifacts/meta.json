@@ -1,0 +1,16 @@
+{
+ "asof": "2026-07-01",
+ "calibration": {
+  "a": 1.0810138796826658,
+  "b": 0.4603837162591855
+ },
+ "queue_cutoff_score": 0.03687004657761178,
+ "monthly_capacity": 40,
+ "goodwill_inr": 380.0,
+ "contact_inr": 260.0,
+ "label_lag_days": 14,
+ "post_weight": 3.0,
+ "n_train": 11146,
+ "n_fraud": 141,
+ "test_months": 3
+}

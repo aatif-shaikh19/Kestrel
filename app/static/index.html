@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kestrel Home · Warranty Claim Review Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #0c0f17;
+      --bg-surface: #141a29;
+      --bg-card: rgba(26, 34, 53, 0.7);
+      --bg-card-hover: rgba(33, 44, 70, 0.85);
+      --border: rgba(148, 163, 184, 0.12);
+      --border-focus: rgba(99, 102, 241, 0.5);
+      --ink-primary: #f8fafc;
+      --ink-secondary: #94a3b8;
+      --ink-muted: #64748b;
+      --brand-primary: #6366f1;
+      --brand-glow: rgba(99, 102, 241, 0.25);
+      --accent-coral: #f43f5e;
+      --accent-coral-bg: rgba(244, 63, 94, 0.12);
+      --accent-coral-border: rgba(244, 63, 94, 0.3);
+      --accent-emerald: #10b981;
+      --accent-emerald-bg: rgba(16, 185, 129, 0.12);
+      --accent-emerald-border: rgba(16, 185, 129, 0.3);
+      --accent-amber: #f59e0b;
+      --accent-amber-bg: rgba(245, 158, 11, 0.12);
+      --accent-amber-border: rgba(245, 158, 11, 0.3);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 15% 10%, #171d33 0%, var(--bg-page) 65%);
+      color: var(--ink-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: 50px;
+    }
+
+    /* Header Bar */
+    header {
+      background: rgba(12, 15, 23, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 32px;
+    }
+
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .brand-logo svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: var(--ink-secondary);
+      font-weight: 500;
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--ink-secondary);
+    }
+
+    .badge-status {
+      border-color: var(--accent-emerald-border);
+      background: var(--accent-emerald-bg);
+      color: #34d399;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    /* Container Layout */
+    .app-container {
+      max-width: 1360px;
+      margin: 28px auto 0;
+      padding: 0 32px;
+    }
+
+    /* Scenario Quick Selector */
+    .presets-bar {
+      margin-bottom: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .presets-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-btn:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--brand-primary);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .preset-btn.active {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: #fff;
+      box-shadow: 0 0 12px var(--brand-glow);
+    }
+
+    /* Two Column Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Panels */
+    .panel-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .panel-card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .sub-head {
+      font-size: 12px;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    /* Form Design */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      margin-bottom: 5px;
+    }
+
+    label span {
+      color: var(--ink-muted);
+      font-weight: 400;
+      font-size: 11px;
+    }
+
+    input, select {
+      width: 100%;
+      background: rgba(12, 15, 23, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      color: var(--ink-primary);
+      font-family: inherit;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px var(--brand-glow);
+      background: rgba(15, 20, 32, 0.95);
+    }
+
+    .field-hint {
+      font-size: 10.5px;
+      color: var(--ink-muted);
+      margin-top: 3px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 0;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Result Panel Styling */
+    .result-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--ink-muted);
+    }
+
+    .empty-icon {
+      width: 48px;
+      height: 48px;
+      stroke: var(--ink-muted);
+      margin-bottom: 14px;
+      opacity: 0.6;
+    }
+
+    .verdict-banner {
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      border: 1px solid transparent;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .verdict-banner.review {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(225, 29, 72, 0.08) 100%);
+      border-color: var(--accent-coral-border);
+    }
+
+    .verdict-banner.pay {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.08) 100%);
+      border-color: var(--accent-emerald-border);
+    }
+
+    .verdict-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .verdict-banner.review .verdict-icon {
+      background: var(--accent-coral);
+      color: #fff;
+    }
+
+    .verdict-banner.pay .verdict-icon {
+      background: var(--accent-emerald);
+      color: #fff;
+    }
+
+    .verdict-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .verdict-banner.review .verdict-title { color: #fda4af; }
+    .verdict-banner.pay .verdict-title { color: #6ee7b7; }
+
+    .verdict-desc {
+      font-size: 13px;
+      color: var(--ink-secondary);
+      font-weight: 500;
+    }
+
+    /* Metrics Cards Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+
+    .metric-card {
+      background: rgba(12, 15, 23, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      margin-bottom: 6px;
+    }
+
+    .metric-val {
+      font-size: 26px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--ink-secondary);
+      margin-top: 6px;
+    }
+
+    /* Policy Notice */
+    .policy-alert {
+      background: var(--accent-amber-bg);
+      border: 1px solid var(--accent-amber-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12.5px;
+      color: #fcd34d;
+    }
+
+    .policy-alert svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fcd34d;
+      flex-shrink: 0;
+    }
+
+    /* Reasons List */
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reasons-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .reason-item {
+      background: rgba(12, 15, 23, 0.45);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      transition: border-color 0.2s;
+    }
+
+    .reason-item:hover {
+      border-color: rgba(148, 163, 184, 0.25);
+    }
+
+    .reason-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .reason-area {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .reason-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-risk {
+      background: var(--accent-coral-bg);
+      color: #f43f5e;
+      border: 1px solid var(--accent-coral-border);
+    }
+
+    .pill-safe {
+      background: var(--accent-emerald-bg);
+      color: #10b981;
+      border: 1px solid var(--accent-emerald-border);
+    }
+
+    .pill-neutral {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--ink-muted);
+      border: 1px solid var(--border);
+    }
+
+    .reason-body {
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+      line-height: 1.45;
+    }
+
+    /* Partner & Audit Info */
+    .partner-card {
+      background: rgba(12, 15, 23, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .partner-id-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #c7d2fe;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .partner-stats {
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+    }
+
+    .partner-stats b {
+      color: #fff;
+    }
+
+    .caveat-box {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      line-height: 1.4;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Error Toast */
+    .error-box {
+      background: var(--accent-coral-bg);
+      border: 1px solid var(--accent-coral-border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      color: #fda4af;
+      margin-bottom: 20px;
+    }
+
+    .error-box b {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .error-box p {
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+    }
+
+    /* Raw JSON Toggle */
+    .json-details {
+      margin-top: 16px;
+    }
+
+    .json-details summary {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .json-details pre {
+      background: #090c13;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #94a3b8;
+      overflow-x: auto;
+      margin-top: 8px;
+      max-height: 220px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-wrap">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 2.18l7 3.89v4.93c0 4.54-3.14 8.79-7 9.87-3.86-1.08-7-5.33-7-9.87V8.07l7-3.89zM11 7h2v6h-2V7zm0 8h2v2h-2v-2z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>Kestrel Home · Warranty Risk Screener</h1>
+          <p>D2C Operations & Claims Review Desk (Pune HQ)</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <div class="badge badge-status" id="health-badge">
+          <div class="pulse-dot"></div>
+          <span>Model Live · Zero-API Local</span>
+        </div>
+        <div class="badge">Desk Cap: 40/month</div>
+        <div class="badge">Goodwill Risk: ₹380</div>
+        <div class="badge">Contact Cost: ₹260</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Presets bar -->
+    <div class="presets-bar">
+      <div class="presets-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Test Scenarios
+      </div>
+      <div class="preset-chips" id="preset-container">
+        <!-- Preset buttons generated dynamically -->
+      </div>
+      <select id="ex" style="width: auto; max-width: 220px; display: none;"></select>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Input Panel -->
+      <section class="panel-card">
+        <h2>
+          <span>Claim Inspection Form</span>
+          <span class="sub-head">Live Intake & Evaluation</span>
+        </h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Claim ID</label>
+            <input id="claim_id" placeholder="e.g. DEMO-001">
+          </div>
+          <div class="form-group">
+            <label>Submitted At <span>(IST)</span></label>
+            <input id="submitted_at" placeholder="2026-07-14 11:20">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Partner ID <span>(Outlet key)</span></label>
+            <input id="partner_id" placeholder="e.g. SP3129">
+          </div>
+          <div class="form-group">
+            <label>Product SKU <span>(KH-*)</span></label>
+            <input id="sku" placeholder="e.g. KH-AF-02">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Product Serial <span>(Typed by partner)</span></label>
+          <input id="product_serial" placeholder="e.g. KH-100200300">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Days Since Purchase</label>
+            <input id="days_since_purchase" type="number" placeholder="131">
+          </div>
+          <div class="form-group">
+            <label>Claim Amount <span>(₹ INR)</span></label>
+            <input id="claim_amount_inr" type="number" placeholder="1890">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Photo Attached?</label>
+            <select id="photo_attached">
+              <option value="Y">Y — Yes (Photo attached)</option>
+              <option value="N">N — No photo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Partner Inspected?</label>
+            <select id="partner_inspected">
+              <option value="Y">Y — Inspected sign-off</option>
+              <option value="N">N — Uninspected</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Fault Description</label>
+          <input id="claim_description" placeholder="e.g. unit not heating">
+        </div>
+
+        <div class="form-group">
+          <label>Inspector Note <span>(Blank if not inspected)</span></label>
+          <input id="inspector_note" placeholder="e.g. Motor winding failure confirmed">
+        </div>
+
+        <div class="form-group">
+          <label>Customer Prior Claims</label>
+          <input id="customer_prior_claims" type="number" value="0">
+        </div>
+
+        <button id="go" class="btn-submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          Evaluate Claim Risk
+        </button>
+      </section>
+
+      <!-- Output Panel -->
+      <section class="panel-card" id="out">
+        <div class="result-empty">
+          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px;">Ready for Evaluation</p>
+          <p style="font-size: 13px;">Pick a test scenario above or fill out the claim fields, then click “Evaluate Claim Risk”.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const F = ["claim_id", "submitted_at", "partner_id", "sku", "product_serial", "days_since_purchase", "claim_amount_inr", "photo_attached", "partner_inspected", "claim_description", "inspector_note", "customer_prior_claims"];
+    const $ = id => document.getElementById(id);
+    let EX = [];
+
+    // Health check
+    fetch("/health").then(r => r.json()).then(h => {
+      const b = $("health-badge");
+      if (!h.ready) {
+        b.className = "badge";
+        b.style.borderColor = "var(--accent-coral-border)";
+        b.style.color = "var(--accent-coral)";
+        b.innerHTML = `<span style="background:var(--accent-coral);width:7px;height:7px;border-radius:50%;display:inline-block"></span> Model Offline: ${h.error || 'Needs training'}`;
+      }
+    }).catch(() => {});
+
+    // Load example presets
+    fetch("/examples").then(r => r.json()).then(e => {
+      EX = e;
+      const container = $("preset-container");
+      e.forEach((x, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "preset-btn" + (i === 0 ? " active" : "");
+        const shortName = x._label.replace(/^Example \d+ – /, '');
+        btn.innerHTML = `<span style="opacity:0.6">${i+1}.</span> ${esc(shortName)}`;
+        btn.onclick = () => {
+          document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          loadExample(i);
+        };
+        container.appendChild(btn);
+      });
+      // Pre-fill first example
+      if (e.length > 0) loadExample(0);
+    }).catch(() => {});
+
+    function loadExample(i) {
+      const x = EX[i];
+      if (!x) return;
+      F.forEach(k => {
+        if ($(k)) $(k).value = x[k] ?? "";
+      });
+    }
+
+    const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+    $("go").onclick = async () => {
+      const rec = {};
+      F.forEach(k => { if ($(k)) rec[k] = $(k).value; });
+      const out = $("out");
+      out.innerHTML = `
+        <div style="padding: 60px 20px; text-align: center;">
+          <div style="display:inline-block; width:28px; height:28px; border:3px solid rgba(99,102,241,0.2); border-top-color:#6366f1; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+          <p style="margin-top:14px; font-size:13px; color:var(--ink-secondary);">Scoring claim against historical risk baseline...</p>
+        </div>
+        <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+      `;
+
+      try {
+        const r = await fetch("/score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(rec)
+        });
+        const j = await r.json();
+
+        if (!r.ok) {
+          out.innerHTML = `
+            <div class="error-box">
+              <b>Evaluation Rejected (${r.status})</b>
+              <p>${esc(j.error || "Unknown validation error")}</p>
+              ${j.fix ? `<p style="margin-top:8px; color:#fff;">💡 <b>Fix:</b> ${esc(j.fix)}</p>` : ""}
+              ${j.detail ? `<p style="margin-top:6px; font-size:11px; font-family:monospace;">${esc(j.detail)}</p>` : ""}
+            </div>
+          `;
+          return;
+        }
+
+        const isReview = j.recommendation.startsWith("REVIEW");
+        const probPct = Math.round(j.est_fraud_probability * 100);
+        const evFormatted = (j.expected_value_of_review_inr < 0 ? "-₹" : "+₹") + Math.abs(j.expected_value_of_review_inr).toLocaleString("en-IN");
+
+        out.innerHTML = `
+          <!-- Verdict Banner -->
+          <div class="verdict-banner ${isReview ? 'review' : 'pay'}">
+            <div class="verdict-icon">
+              ${isReview
+                ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01"/></svg>`
+                : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>`
+              }
+            </div>
+            <div>
+              <div class="verdict-title">${esc(j.recommendation)}</div>
+              <div class="verdict-desc">${esc(j.why_this_recommendation)}</div>
+            </div>
+          </div>
+
+          <!-- Key Metrics Deck -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Risk Score</span>
+              <span class="metric-val" style="color: ${isReview ? '#fda4af' : '#6ee7b7'};">${j.score.toFixed(4)}</span>
+              <span class="metric-sub">Cutoff threshold: 0.0369</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Est. Fraud Prob.</span>
+              <span class="metric-val">${probPct}%</span>
+              <span class="metric-sub">Calibrated empirical likelihood</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Review Value</span>
+              <span class="metric-val" style="color: ${j.expected_value_of_review_inr >= 0 ? '#34d399' : '#f87171'};">${evFormatted}</span>
+              <span class="metric-sub">Payout saved − ₹380 goodwill risk</span>
+            </div>
+          </div>
+
+          <!-- Policy Alerts -->
+          ${j.notes && j.notes.length > 0 ? j.notes.map(n => `
+            <div class="policy-alert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>${esc(n)}</span>
+            </div>
+          `).join("") : ""}
+
+          <!-- Explainable Risk Drivers -->
+          <div class="section-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Key Diagnostic Factors
+          </div>
+          <div class="reasons-stack">
+            ${j.reasons.map(r => {
+              const isHigh = r.direction === "raises risk";
+              const isLow = r.direction === "lowers risk";
+              const pillClass = isHigh ? "pill-risk" : (isLow ? "pill-safe" : "pill-neutral");
+              const icon = isHigh ? "▲" : (isLow ? "▼" : "●");
+              return `
+                <div class="reason-item">
+                  <div class="reason-header">
+                    <span class="reason-area">${esc(r.area)}</span>
+                    <span class="reason-pill ${pillClass}">
+                      ${icon} ${esc(r.direction)} ${r.direction !== "neutral" ? `(${esc(r.strength)})` : ""}
+                    </span>
+                  </div>
+                  <div class="reason-body">${esc(r.reason)}</div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+
+          <!-- Partner Track Record -->
+          <div class="partner-card">
+            <div>
+              <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-muted); display:block; margin-bottom:4px;">Partner Profile</span>
+              <span class="partner-id-badge">${esc(j.partner.partner_id)}</span>
+            </div>
+            <div class="partner-stats">
+              Historical audits: <b>${j.partner.investigated_claims}</b> claim(s) &nbsp;·&nbsp; Confirmed frauds: <b style="color:${j.partner.confirmed_frauds > 0 ? '#f43f5e' : '#10b981'};">${j.partner.confirmed_frauds}</b>
+            </div>
+          </div>
+
+          <!-- Operational Caveat -->
+          <div class="caveat-box">
+            <b>Operational Notice:</b> ${esc(j.model.caveat)} Model trained on ${j.model.trained_on_labelled_claims} labelled historical claims (history cutoff: ${esc(j.model.history_as_of)}).
+          </div>
+
+          <!-- Raw API Response Audit -->
+          <details class="json-details">
+            <summary>View raw JSON payload from /score</summary>
+            <pre>${esc(JSON.stringify(j, null, 2))}</pre>
+          </details>
+        `;
+      } catch (err) {
+        out.innerHTML = `
+          <div class="error-box">
+            <b>Could not communicate with service</b>
+            <p>Ensure the Flask backend is running on <code>http://127.0.0.1:8000</code>.</p>
+            <p style="margin-top:6px; font-size:11px; font-family:monospace;">${esc(String(err))}</p>
+          </div>
+        `;
+      }
+    };
+  </script>
+</body>
+</html>
